@@ -55,3 +55,9 @@ func Handler(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    if r.Method == http.MethodGet {
+	w.Write(graphiQL)
+    }
+}
