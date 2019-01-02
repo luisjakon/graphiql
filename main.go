@@ -32,7 +32,8 @@ var graphiQL = []byte(`
           }
           var body = React.createElement(GraphiQL, {
 			  fetcher: fetcher,
-			  query: '', variables: ''
+			  query: '',
+			  variables: ''
 		  });
           ReactDOM.render(body, document.body);
       });
@@ -45,18 +46,18 @@ var graphiQL = []byte(`
 
 func Handler(next http.Handler) http.Handler {
 
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+	    w.Write(graphiQL)
+	    return
+	}
 
-		if r.Method == http.MethodGet {
-			w.Write(graphiQL)
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	})
+	next.ServeHTTP(w, r)
+    })
 }
 
 func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
     if r.Method == http.MethodGet {
 	w.Write(graphiQL)
     }
